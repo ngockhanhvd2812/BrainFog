@@ -8,6 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -85,32 +89,398 @@
         .impact-visualization {
             background: radial-gradient(circle at center, rgba(0,166,166,0.1) 0%, transparent 70%);
         }
+        .particles-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .interactive-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(0, 166, 166, 0.3);
+            border: 1px solid rgba(0, 166, 166, 0.5);
+        }
+        .neon-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 166, 166, 0.6);
+        }
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #00A6A6;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00A6A6 }
+        }
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00A6A6, #70C1B3);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 9999;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark-theme {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .skill-bar {
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00A6A6, #70C1B3);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+             100% { transform: translateX(100%); }
+        }
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        .tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+        .tab-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .tab-nav {
+            display: flex;
+            background: #f8fafc;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .tab-button.active {
+            background: white;
+            color: #00A6A6;
+            border-bottom: 3px solid #00A6A6;
+        }
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .comparison-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+        .comparison-card.good {
+            border-left-color: #10B981;
+        }
+        .comparison-card.bad {
+            border-left-color: #EF4444;
+        }
+        .interactive-brain {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .interactive-brain:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 20px rgba(0, 166, 166, 0.6));
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-circle {
+            transition: stroke-dasharray 0.35s;
+            transform-origin: 50% 50%;
+        }
     </style>
 </head>
 <body class="text-gray-800 overflow-x-hidden">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle rounded-full w-12 h-12 flex items-center justify-center" id="themeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon text-white"></i>
+    </button>
+    
+    <!-- Interactive Brain Modal -->
+    <div id="brainModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="tab-container">
+                <div class="tab-nav">
+                    <button class="tab-button active" data-tab="symptoms">Triệu chứng</button>
+                    <button class="tab-button" data-tab="causes">Nguyên nhân</button>
+                    <button class="tab-button" data-tab="solutions">Giải pháp</button>
+                    <button class="tab-button" data-tab="progress">Tiến độ</button>
+                </div>
+                
+                <div id="symptoms" class="tab-content active">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Các Triệu Chứng Phổ Biến</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="comparison-card bad">
+                            <h4 class="font-bold text-red-600 mb-2">🧠 Triệu chứng nhận thức</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Khó tập trung vào công việc</li>
+                                <li>• Quên tên, ngày tháng</li>
+                                <li>• Chậm chạp trong tư duy</li>
+                                <li>• Khó đưa ra quyết định</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card bad">
+                            <h4 class="font-bold text-red-600 mb-2">😴 Triệu chứng thể chất</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Mệt mỏi liên tục</li>
+                                <li>• Đau đầu thường xuyên</li>
+                                <li>• Cảm giác "nặng đầu"</li>
+                                <li>• Khó ngủ hoặc ngủ không sâu</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="causes" class="tab-content">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Nguyên Nhân Sâu Xa</h3>
+                    <div class="space-y-4">
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                            <h4 class="font-bold text-red-700">🔴 Căng thẳng mãn tính</h4>
+                            <p class="text-sm mt-2">Cortisol cao liên tục làm tổn thương các tế bào não, đặc biệt ở vùng hippocampus.</p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
+                            <h4 class="font-bold text-orange-700">🟠 Thiếu oxy não bộ</h4>
+                            <p class="text-sm mt-2">Ngồi lâu, thiếu vận động làm giảm lưu lượng máu và oxy đến não.</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <h4 class="font-bold text-yellow-700">🟡 Rối loạn neurotransmitter</h4>
+                            <p class="text-sm mt-2">Thiếu dopamine, serotonin do chế độ ăn kém và thiếu ánh sáng.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="solutions" class="tab-content">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Kế Hoạch Hành Động</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="comparison-card good">
+                            <h4 class="font-bold text-green-600 mb-2">⏰ Giải pháp tức thì (0-7 ngày)</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Uống đủ 2-3 lít nước/ngày</li>
+                                <li>• Đi bộ 5 phút mỗi giờ</li>
+                                <li>• Hít thở sâu 4-7-8</li>
+                                <li>• Ngủ đúng giờ</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card good">
+                            <h4 class="font-bold text-green-600 mb-2">🎯 Giải pháp dài hạn (1-4 tuần)</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Tập thể dục đều đặn</li>
+                                <li>• Cải thiện chế độ ăn</li>
+                                <li>• Thiền định hàng ngày</li>
+                                <li>• Bổ sung vitamin D</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="progress" class="tab-content">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Theo Dõi Tiến Độ</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Chất lượng giấc ngủ</span>
+                                <span class="text-sm font-medium">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Mức độ tập trung</span>
+                                <span class="text-sm font-medium">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Năng lượng hàng ngày</span>
+                                <span class="text-sm font-medium">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Khả năng ghi nhớ</span>
+                                <span class="text-sm font-medium">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section with Statistics -->
     <div class="relative min-h-screen flex items-center justify-center">
+        <!-- Particles Background -->
+        <div id="particles-js" class="particles-bg"></div>
+        
         <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 opacity-90"></div>
         <div class="container mx-auto p-4 md:p-8 relative z-10">
             
             <!-- Floating Statistics Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" data-aos="fade-up" data-aos-delay="200">
-                <div class="glass-effect rounded-xl p-4 text-center text-white">
+                <div class="glass-effect rounded-xl p-4 text-center text-white interactive-hover neon-glow tooltip" data-tooltip="Theo nghiên cứu của Harvard Business Review 2023">
                     <div class="stat-counter">78%</div>
                     <p class="text-sm opacity-80">Nhân viên bị sương mù não</p>
+                    <div class="mt-2">
+                        <svg class="progress-ring w-8 h-8 mx-auto" width="32" height="32">
+                            <circle class="progress-ring-circle" stroke="#00A6A6" stroke-width="2" fill="transparent" r="14" cx="16" cy="16" stroke-dasharray="87.9 87.9" stroke-dashoffset="21"/>
+                        </svg>
+                    </div>
                 </div>
-                <div class="glass-effect rounded-xl p-4 text-center text-white">
+                <div class="glass-effect rounded-xl p-4 text-center text-white interactive-hover neon-glow tooltip" data-tooltip="Giảm năng suất làm việc trung bình">
                     <div class="stat-counter">40%</div>
                     <p class="text-sm opacity-80">Giảm hiệu suất làm việc</p>
+                    <div class="mt-2">
+                        <svg class="progress-ring w-8 h-8 mx-auto" width="32" height="32">
+                            <circle class="progress-ring-circle" stroke="#F25C54" stroke-width="2" fill="transparent" r="14" cx="16" cy="16" stroke-dasharray="87.9 87.9" stroke-dashoffset="53"/>
+                        </svg>
+                    </div>
                 </div>
-                <div class="glass-effect rounded-xl p-4 text-center text-white">
+                <div class="glass-effect rounded-xl p-4 text-center text-white interactive-hover neon-glow tooltip" data-tooltip="Các yếu tố chính gây sương mù não">
                     <div class="stat-counter">6</div>
                     <p class="text-sm opacity-80">Thủ phạm chính</p>
+                    <div class="mt-2">
+                        <div class="flex justify-center space-x-1">
+                            <div class="w-1 h-4 bg-gradient-to-t from-red-500 to-yellow-400 rounded-full"></div>
+                            <div class="w-1 h-4 bg-gradient-to-t from-red-500 to-yellow-400 rounded-full"></div>
+                            <div class="w-1 h-4 bg-gradient-to-t from-red-500 to-yellow-400 rounded-full"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-effect rounded-xl p-4 text-center text-white">
+                <div class="glass-effect rounded-xl p-4 text-center text-white interactive-hover neon-glow tooltip" data-tooltip="Ảnh hưởng liên tục đến sức khỏe não bộ">
                     <div class="stat-counter">24/7</div>
                     <p class="text-sm opacity-80">Ảnh hưởng liên tục</p>
+                    <div class="mt-2">
+                        <div class="pulse-animation">
+                            <i class="fas fa-clock text-yellow-300"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -119,10 +489,18 @@
                     <span class="gradient-text">"Sương Mù Não"</span><br>
                     <span class="text-white">Nơi Công Sở</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
-                    Những thói quen âm thầm đang "đánh cắp" sự minh mẫn và khả năng tập trung của bạn mỗi ngày.
-                </p>
+                <div class="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed mb-8">
+                    <div id="typed-text"></div>
+                </div>
                 <div class="brain-wave mt-8 w-32 mx-auto"></div>
+                
+                <!-- Interactive Brain Icon -->
+                <div class="mt-12">
+                    <div class="interactive-brain floating-element text-8xl cursor-pointer" id="brainIcon" title="Nhấp để tìm hiểu thêm">
+                        🧠
+                    </div>
+                    <p class="text-white/70 mt-4 text-sm">Nhấp vào biểu tượng não để khám phá chi tiết</p>
+                </div>
             </header>
         </div>
     </div>
@@ -139,7 +517,7 @@
                     </h2>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                        <div class="metric-card rounded-2xl p-6 text-center">
+                        <div class="metric-card rounded-2xl p-6 text-center interactive-hover">
                             <div class="text-5xl mb-4">🧠</div>
                             <div class="text-3xl font-black text-[#F25C54] mb-2">-35%</div>
                             <p class="text-gray-600 font-medium">Giảm khả năng ghi nhớ</p>
@@ -148,7 +526,7 @@
                             </div>
                         </div>
                         
-                        <div class="metric-card rounded-2xl p-6 text-center">
+                        <div class="metric-card rounded-2xl p-6 text-center interactive-hover">
                             <div class="text-5xl mb-4">⚡</div>
                             <div class="text-3xl font-black text-[#F25C54] mb-2">-50%</div>
                             <p class="text-gray-600 font-medium">Giảm tốc độ xử lý thông tin</p>
@@ -157,7 +535,7 @@
                             </div>
                         </div>
                         
-                        <div class="metric-card rounded-2xl p-6 text-center">
+                        <div class="metric-card rounded-2xl p-6 text-center interactive-hover">
                             <div class="text-5xl mb-4">🎯</div>
                             <div class="text-3xl font-black text-[#F25C54] mb-2">-42%</div>
                             <p class="text-gray-600 font-medium">Giảm khả năng tập trung</p>
@@ -168,10 +546,65 @@
                     </div>
                     
                     <!-- Brain Health Radar Chart -->
-                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-12">
                         <h3 class="text-2xl font-bold text-center mb-6">Chỉ Số Sức Khỏe Não Bộ</h3>
                         <div class="chart-container">
                             <canvas id="brainHealthRadar"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Cognitive Performance Comparison -->
+                    <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold text-center mb-6">So Sánh Hiệu Suất Nhận Thức</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-xl p-6 shadow-md">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                                    <h4 class="font-bold text-green-700">Người có thói quen tốt</h4>
+                                </div>
+                                <ul class="space-y-2">
+                                    <li class="flex justify-between">
+                                        <span>Khả năng tập trung:</span>
+                                        <span class="font-bold text-green-600">90%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Trí nhớ ngắn hạn:</span>
+                                        <span class="font-bold text-green-600">85%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Sáng tạo:</span>
+                                        <span class="font-bold text-green-600">80%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Ra quyết định:</span>
+                                        <span class="font-bold text-green-600">88%</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="bg-white rounded-xl p-6 shadow-md">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                                    <h4 class="font-bold text-red-700">Người có thói quen xấu</h4>
+                                </div>
+                                <ul class="space-y-2">
+                                    <li class="flex justify-between">
+                                        <span>Khả năng tập trung:</span>
+                                        <span class="font-bold text-red-600">40%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Trí nhớ ngắn hạn:</span>
+                                        <span class="font-bold text-red-600">45%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Sáng tạo:</span>
+                                        <span class="font-bold text-red-600">35%</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Ra quyết định:</span>
+                                        <span class="font-bold text-red-600">38%</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -261,64 +694,76 @@
                     </h2>
                     <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto text-lg">Các thói quen xấu không tồn tại riêng lẻ. Chúng tạo ra một chu kỳ tiêu cực, kéo hiệu suất của bạn đi xuống mỗi ngày.</p>
                     
-                    <!-- Cycle Visualization -->
-                    <div class="flex flex-col lg:flex-row justify-center items-center space-y-6 lg:space-y-0 lg:space-x-6">
-                        <div class="flex flex-col items-center space-y-4">
-                            <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F25C54] w-64">
-                                <div class="text-4xl mb-2 text-center">😴</div>
-                                <p class="font-bold text-center text-gray-800">Thiếu ngủ</p>
-                                <p class="text-sm text-gray-600 text-center mt-2">Kém chất lượng giấc ngủ</p>
+                    <!-- Interactive Cycle Visualization -->
+                    <div class="relative">
+                        <div class="cycle-container mx-auto w-64 h-64 md:w-80 md:h-80">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F25C54] w-40 text-center">
+                                    <div class="text-2xl mb-2">😴</div>
+                                    <p class="font-bold text-sm text-gray-800">Thiếu ngủ</p>
+                                </div>
                             </div>
-                            <div class="text-3xl text-[#F25C54] font-bold">↓</div>
-                            <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F28A5C] w-64">
-                                <div class="text-4xl mb-2 text-center">😫</div>
-                                <p class="font-bold text-center text-gray-800">Mệt mỏi, uể oải</p>
-                                <p class="text-sm text-gray-600 text-center mt-2">Giảm năng lượng và tỉnh táo</p>
+                            <div class="absolute top-1/4 right-1/4">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F28A5C] w-40 text-center">
+                                    <div class="text-2xl mb-2">😫</div>
+                                    <p class="font-bold text-sm text-gray-800">Mệt mỏi</p>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-1/4 right-1/4">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F2B95C] w-40 text-center">
+                                    <div class="text-2xl mb-2">☕</div>
+                                    <p class="font-bold text-sm text-gray-800">Caffeine</p>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#70C1B3] w-40 text-center">
+                                    <div class="text-2xl mb-2">😰</div>
+                                    <p class="font-bold text-sm text-gray-800">Căng thẳng</p>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-1/4 left-1/4">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#00A6A6] w-40 text-center">
+                                    <div class="text-2xl mb-2">🌙</div>
+                                    <p class="font-bold text-sm text-gray-800">Khó ngủ</p>
+                                </div>
+                            </div>
+                            <div class="absolute top-1/4 left-1/4">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F2E3BC] w-40 text-center">
+                                    <div class="text-2xl mb-2">😵</div>
+                                    <p class="font-bold text-sm text-gray-800">Suy giảm</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="hidden lg:block">
-                            <div class="text-4xl text-[#F25C54] font-bold">→</div>
-                        </div>
-                        
-                        <div class="flex flex-col items-center space-y-4">
-                            <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F2B95C] w-64">
-                                <div class="text-4xl mb-2 text-center">☕</div>
-                                <p class="font-bold text-center text-gray-800">Uống nhiều caffeine</p>
-                                <p class="text-sm text-gray-600 text-center mt-2">Phụ thuộc vào chất kích thích</p>
-                            </div>
-                            <div class="text-3xl text-[#F25C54] font-bold">↓</div>
-                            <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#70C1B3] w-64">
-                                <div class="text-4xl mb-2 text-center">😰</div>
-                                <p class="font-bold text-center text-gray-800">Căng thẳng, lo âu</p>
-                                <p class="text-sm text-gray-600 text-center mt-2">Tăng mức cortisol</p>
-                            </div>
-                        </div>
-                        
-                        <div class="hidden lg:block">
-                            <div class="text-4xl text-[#F25C54] font-bold transform rotate-180">→</div>
-                        </div>
-                        
-                        <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#00A6A6] w-64">
-                            <div class="text-4xl mb-2 text-center">🌙</div>
-                            <p class="font-bold text-center text-gray-800">Khó ngủ hơn</p>
-                            <p class="text-sm text-gray-600 text-center mt-2">Chu kỳ lặp lại</p>
-                        </div>
+                        <!-- Arrows connecting the cycle -->
+                        <svg class="absolute top-0 left-0 w-full h-full pointer-events-none" viewBox="0 0 320 320">
+                            <path d="M160 40 L240 100" stroke="#F25C54" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <path d="M260 120 L260 180" stroke="#F28A5C" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <path d="M240 220 L160 280" stroke="#F2B95C" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <path d="M140 280 L60 220" stroke="#70C1B3" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <path d="M40 180 L40 120" stroke="#00A6A6" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <path d="M60 100 L140 40" stroke="#F2E3BC" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#00A6A6" />
+                                </marker>
+                            </defs>
+                        </svg>
                     </div>
                     
                     <!-- Cycle Impact Metrics -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                        <div class="text-center">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">72h</div>
                             <p class="text-gray-600">Thời gian hồi phục sau một chu kỳ</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">-60%</div>
                             <p class="text-gray-600">Giảm hiệu suất công việc</p>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">3x</div>
-                            <p class="text-gray-600">Tăng ngưy cơ mắc lỗi</p>
+                            <p class="text-gray-600">Tăng nguy cơ mắc lỗi</p>
                         </div>
                     </div>
                 </div>
@@ -334,26 +779,26 @@
                 
                 <!-- Statistics Overview -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-                    <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white text-center">
+                    <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white text-center interactive-hover">
                         <div class="text-4xl font-black mb-2">92%</div>
                         <p class="text-sm opacity-90">Nhân viên cảm thấy mệt mỏi sau buổi sáng</p>
                     </div>
-                    <div class="bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl p-6 text-white text-center">
+                    <div class="bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl p-6 text-white text-center interactive-hover">
                         <div class="text-4xl font-black mb-2">65%</div>
                         <p class="text-sm opacity-90">Giảm khả năng ra quyết định</p>
                     </div>
-                    <div class="bg-gradient-to-br from-orange-500 to-yellow-600 rounded-2xl p-6 text-white text-center">
+                    <div class="bg-gradient-to-br from-orange-500 to-yellow-600 rounded-2xl p-6 text-white text-center interactive-hover">
                         <div class="text-4xl font-black mb-2">4.2h</div>
                         <p class="text-sm opacity-90">Thời gian làm việc hiệu quả mỗi ngày</p>
                     </div>
-                    <div class="bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl p-6 text-white text-center">
+                    <div class="bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl p-6 text-white text-center interactive-hover">
                         <div class="text-4xl font-black mb-2">3x</div>
                         <p class="text-sm opacity-90">Tăng tỉ lệ mắc sai lầm</p>
                     </div>
                 </div>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-                    <div class="bg-white rounded-3xl shadow-2xl p-8">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 interactive-hover">
                         <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Mức Độ Rủi Ro Tương Đối</h3>
                         <p class="text-center text-sm text-gray-500 mb-6">Biểu đồ so sánh mức độ ảnh hưởng của các thói quen tiêu cực đến chức năng nhận thức</p>
                         <div class="chart-container">
@@ -370,18 +815,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="bg-white rounded-lg shadow-lg p-6 interactive-hover">
                         <h3 class="text-xl font-bold text-center mb-4">78% Nhân Viên Văn Phòng Từng Trải Qua Triệu Chứng</h3>
                         <p class="text-center text-sm text-gray-500 mb-4">Thống kê cho thấy "sương mù não" là một tình trạng rất phổ biến, không chỉ là cảm giác của riêng bạn. Phần lớn người lao động tri thức đều bị ảnh hưởng.</p>
                         <div class="chart-container">
                             <canvas id="prevalenceDoughnutChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-lg p-6 lg:col-span-2 interactive-hover">
                         <h3 class="text-xl font-bold text-center mb-4">Hiệu Suất Nhận Thức Trong Ngày: Tốt vs. Xấu</h3>
                         <p class="text-center text-sm text-gray-500 mb-4 max-w-3xl mx-auto">Đường màu xanh lá cây thể hiện mức năng lượng ổn định của người có thói quen tốt. Ngược lại, đường màu đỏ cho thấy sự sụt giảm nghiêm trọng về khả năng tập trung vào buổi chiều của người có thói quen xấu.</p>
                         <div class="chart-container h-96 md:h-[500px] max-h-[500px]">
                             <canvas id="performanceLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Insights Section -->
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-8 text-white">
+                    <h3 class="text-2xl font-bold text-center mb-6">Những Phát Hiện Đáng Ngạc Nhiên</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                            <div class="text-3xl mb-3">⏰</div>
+                            <h4 class="font-bold mb-2">Thời điểm nguy hiểm</h4>
+                            <p class="text-sm opacity-90">2-4 PM là khung giờ hiệu suất não giảm mạnh nhất do nhịp sinh học</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                            <div class="text-3xl mb-3">💧</div>
+                            <h4 class="font-bold mb-2">Tác động của nước</h4>
+                            <p class="text-sm opacity-90">Mất chỉ 2% nước cơ thể làm giảm 20% hiệu suất nhận thức</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+                            <div class="text-3xl mb-3">🚶</div>
+                            <h4 class="font-bold mb-2">Vận động tức thì</h4>
+                            <p class="text-sm opacity-90">Chỉ 10 phút đi bộ có thể cải thiện trí nhớ ngắn hạn lên đến 30%</p>
                         </div>
                     </div>
                 </div>
@@ -395,7 +862,7 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="text-center transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
-                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full">
+                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full interactive-hover">
                                 <div class="text-6xl mb-4">🌙</div>
                                 <h3 class="text-2xl font-bold mb-4">Giấc Ngủ</h3>
                                 <ul class="list-none space-y-3 text-left text-sm">
@@ -423,7 +890,7 @@
                         </div>
                         
                         <div class="text-center transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
-                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full">
+                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full interactive-hover">
                                 <div class="text-6xl mb-4">🏃</div>
                                 <h3 class="text-2xl font-bold mb-4">Vận Động</h3>
                                 <ul class="list-none space-y-3 text-left text-sm">
@@ -451,7 +918,7 @@
                         </div>
                         
                         <div class="text-center transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
-                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full">
+                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full interactive-hover">
                                 <div class="text-6xl mb-4">🥗</div>
                                 <h3 class="text-2xl font-bold mb-4">Dinh Dưỡng</h3>
                                 <ul class="list-none space-y-3 text-left text-sm">
@@ -479,7 +946,7 @@
                         </div>
                         
                         <div class="text-center transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
-                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full">
+                            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 h-full interactive-hover">
                                 <div class="text-6xl mb-4">🧘</div>
                                 <h3 class="text-2xl font-bold mb-4">Tinh Thần</h3>
                                 <ul class="list-none space-y-3 text-left text-sm">
@@ -511,26 +978,63 @@
                     <div class="mt-16 bg-white/10 backdrop-blur-lg rounded-2xl p-8">
                         <h3 class="text-3xl font-bold text-center mb-8">Kế Hoạch Hành Động 30 Ngày</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div class="text-center">
+                            <div class="text-center bg-white/20 rounded-xl p-6">
                                 <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                                     <span class="text-2xl font-bold">1</span>
                                 </div>
                                 <h4 class="font-bold mb-2">Tuần 1-2: Nền Tảng</h4>
                                 <p class="text-sm opacity-90">Xây dựng thói quen giấc ngủ và bắt đầu vận động nhẹ</p>
+                                <div class="mt-4">
+                                    <div class="flex justify-center space-x-2">
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center bg-white/20 rounded-xl p-6">
                                 <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                                     <span class="text-2xl font-bold">2</span>
                                 </div>
                                 <h4 class="font-bold mb-2">Tuần 3: Cải Thiện</h4>
                                 <p class="text-sm opacity-90">Bổ sung dinh dưỡng và kỹ thuật quản lý stress</p>
+                                <div class="mt-4">
+                                    <div class="flex justify-center space-x-2">
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center bg-white/20 rounded-xl p-6">
                                 <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                                     <span class="text-2xl font-bold">3</span>
                                 </div>
                                 <h4 class="font-bold mb-2">Tuần 4: Tối ưu</h4>
                                 <p class="text-sm opacity-90">Hoàn thiện tất cả các thói quen và duy trì lâu dài</p>
+                                <div class="mt-4">
+                                    <div class="flex justify-center space-x-2">
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Tracker -->
+                        <div class="mt-10">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium">Tiến độ hoàn thành</span>
+                                <span class="text-sm font-medium">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 65%"></div>
+                            </div>
+                            <div class="flex justify-between mt-4 text-xs">
+                                <span>Bắt đầu</span>
+                                <span>Giữa chặng</span>
+                                <span>Hoàn thành</span>
                             </div>
                         </div>
                     </div>
@@ -588,6 +1092,178 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1000,
         once: true,
         offset: 100
+    });
+
+    // Initialize Particles.js
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    }
+
+    // Initialize Typed.js for typewriter effect
+    if (typeof Typed !== 'undefined') {
+        new Typed('#typed-text', {
+            strings: [
+                'Những thói quen âm thầm đang "đánh cắp" sự minh mẫn và khả năng tập trung của bạn mỗi ngày.',
+                'Hiểu rõ nguyên nhân và tìm ra giải pháp khoa học để cải thiện sức khỏe não bộ.',
+                'Bắt đầu hành trình thay đổi ngay hôm nay để giành lại sự tập trung và năng suất làm việc.'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 2000,
+            loop: true,
+            showCursor: false
+        });
+    }
+
+    // Scroll Progress Indicator
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollIndicator.style.transform = `scaleX(${scrollPercent / 100})`;
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const icon = themeToggle.querySelector('i');
+        if (document.body.classList.contains('dark-theme')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+
+    // Modal functionality
+    const modal = document.getElementById("brainModal");
+    const brainIcon = document.getElementById("brainIcon");
+    const closeBtn = document.getElementsByClassName("close")[0];
+    
+    brainIcon.addEventListener("click", () => {
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+    });
+    
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; // Enable scrolling when modal is closed
+    });
+    
+    window.addEventListener("click", (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    });
+
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Show corresponding content
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
     });
 
     // Utility functions
