@@ -300,6 +300,16 @@
             transition: stroke-dasharray 0.35s;
             transform-origin: 50% 50%;
         }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .cycle-container {
+            position: relative;
+        }
     </style>
 </head>
 <body class="text-gray-800 overflow-x-hidden">
@@ -686,63 +696,79 @@
             
             <!-- Enhanced Vicious Cycle Section -->
             <section id="cycle" class="mb-20" data-aos="fade-up">
-                <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-3xl shadow-2xl p-8 md:p-12">
+                <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-3xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500"></div>
                     <h2 class="text-4xl font-black text-center mb-6">
                         <span class="text-gray-800">Vòng </span>
                         <span class="gradient-text">Luẩn Quẩn</span>
                         <span class="text-gray-800"> Của "Sương Mù Não"</span>
                     </h2>
-                    <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto text-lg">Các thói quen xấu không tồn tại riêng lẻ. Chúng tạo ra một chu kỳ tiêu cực, kéo hiệu suất của bạn đi xuống mỗi ngày.</p>
+                    <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto text-lg">Các thói quен xấu không tồn tại riêng lẻ. Chúng tạo ra một chu kỳ tiêu cực, kéo hiệu suất của bạn đi xuống mỗi ngày.</p>
                     
-                    <!-- Interactive Cycle Visualization -->
-                    <div class="relative">
-                        <div class="cycle-container mx-auto w-64 h-64 md:w-80 md:h-80">
-                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F25C54] w-40 text-center">
+                    <!-- Interactive Circular Cycle Visualization -->
+                    <div class="relative flex justify-center items-center my-12">
+                        <div class="cycle-container w-80 h-80 md:w-96 md:h-96 rounded-full border-4 border-dashed border-red-300 flex items-center justify-center animate-pulse-slow">
+                            <!-- Central Brain Icon -->
+                            <div class="text-5xl z-10">🧠</div>
+                            
+                            <!-- Cycle Items positioned in a circle -->
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#F25C54] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">😴</div>
                                     <p class="font-bold text-sm text-gray-800">Thiếu ngủ</p>
+                                    <p class="text-xs text-gray-500 mt-1">Kém chất lượng</p>
                                 </div>
                             </div>
-                            <div class="absolute top-1/4 right-1/4">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F28A5C] w-40 text-center">
+                            
+                            <div class="absolute top-1/4 right-1/4 transform translate-x-1/2 -translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#F28A5C] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">😫</div>
                                     <p class="font-bold text-sm text-gray-800">Mệt mỏi</p>
+                                    <p class="text-xs text-gray-500 mt-1">Giảm năng lượng</p>
                                 </div>
                             </div>
-                            <div class="absolute bottom-1/4 right-1/4">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F2B95C] w-40 text-center">
+                            
+                            <div class="absolute bottom-1/4 right-1/4 transform translate-x-1/2 translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#F2B95C] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">☕</div>
                                     <p class="font-bold text-sm text-gray-800">Caffeine</p>
+                                    <p class="text-xs text-gray-500 mt-1">Phụ thuộc</p>
                                 </div>
                             </div>
-                            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#70C1B3] w-40 text-center">
+                            
+                            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#70C1B3] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">😰</div>
                                     <p class="font-bold text-sm text-gray-800">Căng thẳng</p>
+                                    <p class="text-xs text-gray-500 mt-1">Tăng cortisol</p>
                                 </div>
                             </div>
-                            <div class="absolute bottom-1/4 left-1/4">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#00A6A6] w-40 text-center">
+                            
+                            <div class="absolute bottom-1/4 left-1/4 transform -translate-x-1/2 translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#00A6A6] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">🌙</div>
                                     <p class="font-bold text-sm text-gray-800">Khó ngủ</p>
+                                    <p class="text-xs text-gray-500 mt-1">Chu kỳ lặp lại</p>
                                 </div>
                             </div>
-                            <div class="absolute top-1/4 left-1/4">
-                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 border-l-4 border-[#F2E3BC] w-40 text-center">
+                            
+                            <div class="absolute top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+                                <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-110 transition-all duration-300 border-l-4 border-[#F2E3BC] w-40 text-center neon-glow interactive-hover">
                                     <div class="text-2xl mb-2">😵</div>
                                     <p class="font-bold text-sm text-gray-800">Suy giảm</p>
+                                    <p class="text-xs text-gray-500 mt-1">Nhận thức</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Arrows connecting the cycle -->
-                        <svg class="absolute top-0 left-0 w-full h-full pointer-events-none" viewBox="0 0 320 320">
-                            <path d="M160 40 L240 100" stroke="#F25C54" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                            <path d="M260 120 L260 180" stroke="#F28A5C" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                            <path d="M240 220 L160 280" stroke="#F2B95C" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                            <path d="M140 280 L60 220" stroke="#70C1B3" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                            <path d="M40 180 L40 120" stroke="#00A6A6" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                            <path d="M60 100 L140 40" stroke="#F2E3BC" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                        <!-- Static Arrows connecting the cycle -->
+                        <svg class="absolute top-0 left-0 w-full h-full pointer-events-none" viewBox="0 0 384 384">
+                            <path d="M192 32 L288 128" stroke="#F25C54" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
+                            <path d="M308 148 L308 212" stroke="#F28A5C" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
+                            <path d="M288 232 L192 328" stroke="#F2B95C" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
+                            <path d="M172 328 L76 232" stroke="#70C1B3" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
+                            <path d="M56 212 L56 148" stroke="#00A6A6" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
+                            <path d="M76 128 L172 32" stroke="#F2E3BC" stroke-width="3" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5" />
                             <defs>
                                 <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
                                     <polygon points="0 0, 10 3.5, 0 7" fill="#00A6A6" />
@@ -751,17 +777,94 @@
                         </svg>
                     </div>
                     
+                    <!-- Detailed Cycle Explanation -->
+                    <div class="mt-16 bg-white rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-center mb-6 gradient-text">Phân Tích Chi Tiết Chu Trình Vicious</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="border-l-4 border-[#F25C54] pl-4 py-2">
+                                <h4 class="font-bold text-lg mb-2">1. Thiếu ngủ → Mệt mỏi</h4>
+                                <p class="text-gray-600 text-sm">Khi bạn không ngủ đủ giấc, não bộ không có thời gian để phục hồi và loại bỏ các độc tố. Điều này dẫn đến tình trạng mệt mỏi vào buổi sáng.</p>
+                            </div>
+                            <div class="border-l-4 border-[#F28A5C] pl-4 py-2">
+                                <h4 class="font-bold text-lg mb-2">2. Mệt mỏi → Phụ thuộc caffeine</h4>
+                                <p class="text-gray-600 text-sm">Để đối phó với tình trạng mệt mỏi, bạn uống nhiều cà phê hơn. Tuy nhiên, caffeine chỉ là giải pháp tạm thời và có thể làm rối loạn chu kỳ ngủ tự nhiên.</p>
+                            </div>
+                            <div class="border-l-4 border-[#F2B95C] pl-4 py-2">
+                                <h4 class="font-bold text-lg mb-2">3. Caffeine → Căng thẳng</h4>
+                                <p class="text-gray-600 text-sm">Lạm dụng caffeine làm tăng cortisol - hormone căng thẳng. Điều này khiến bạn cảm thấy lo lắng và bồn chồn, ảnh hưởng đến khả năng tập trung.</p>
+                            </div>
+                            <div class="border-l-4 border-[#70C1B3] pl-4 py-2">
+                                <h4 class="font-bold text-lg mb-2">4. Căng thẳng → Khó ngủ</h4>
+                                <p class="text-gray-600 text-sm">Mức cortisol cao khiến não bộ khó thư giãn và chuyển sang trạng thái nghỉ ngơi. Bạn sẽ gặp khó khăn khi ngủ hoặc ngủ không sâu.</p>
+                            </div>
+                            <div class="border-l-4 border-[#00A6A6] pl-4 py-2 md:col-span-2">
+                                <h4 class="font-bold text-lg mb-2">5. Khó ngủ → Suy giảm nhận thức → Thiếu ngủ (Lặp lại chu trình)</h4>
+                                <p class="text-gray-600 text-sm">Khi bạn không ngủ đủ giấc, chức năng nhận thức bị suy giảm, dẫn đến hiệu suất làm việc kém và cảm giác mệt mỏi ngày hôm sau. Chu trình lặp lại và ngày càng trở nên nghiêm trọng hơn.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Scientific Data -->
+                    <div class="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4">Dữ Liệu Khoa Học</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-xl shadow text-center">
+                                <div class="text-2xl font-bold text-[#F25C54] mb-1">35%</div>
+                                <p class="text-sm text-gray-600">Giảm hiệu suất làm việc do thiếu ngủ</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow text-center">
+                                <div class="text-2xl font-bold text-[#F28A5C] mb-1">2x</div>
+                                <p class="text-sm text-gray-600">Tăng nguy cơ mắc lỗi khi mệt mỏi</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow text-center">
+                                <div class="text-2xl font-bold text-[#F2B95C] mb-1">50%</div>
+                                <p class="text-sm text-gray-600">Giảm khả năng ra quyết định khi căng thẳng</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Solutions Breakdown -->
+                    <div class="mt-8 bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4">Giải Pháp Đột Phá</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-5 rounded-xl shadow">
+                                <h4 class="font-bold text-lg mb-2 text-[#00A6A6]">🧠 Cải Thiện Giấc Ngủ</h4>
+                                <ul class="text-sm space-y-1 text-gray-600">
+                                    <li>• Đi ngủ và thức dậy vào cùng một thời điểm mỗi ngày</li>
+                                    <li>• Tránh ánh sáng xanh 1 giờ trước khi ngủ</li>
+                                    <li>• Tạo môi trường ngủ tối, mát mẻ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl shadow">
+                                <h4 class="font-bold text-lg mb-2 text-[#70C1B3]">💪 Quản Lý Năng Lượng</h4>
+                                <ul class="text-sm space-y-1 text-gray-600">
+                                    <li>• Uống đủ 2 lít nước mỗi ngày</li>
+                                    <li>• Ăn bữa nhẹ chứa protein vào buổi chiều</li>
+                                    <li>• Nghỉ giải lao 5 phút mỗi giờ làm việc</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl shadow md:col-span-2">
+                                <h4 class="font-bold text-lg mb-2 text-[#F25C54]">🧘‍♀️ Giảm Căng Thẳng</h4>
+                                <ul class="text-sm space-y-1 text-gray-600">
+                                    <li>• Thực hành hít thở sâu 4-7-8 khi căng thẳng</li>
+                                    <li>• Dành 10 phút mỗi ngày để thiền định</li>
+                                    <li>• Viết nhật ký để giải tỏa tâm trí</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Cycle Impact Metrics -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md interactive-hover transform hover:-translate-y-2 transition-all duration-300">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">72h</div>
                             <p class="text-gray-600">Thời gian hồi phục sau một chu kỳ</p>
                         </div>
-                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md interactive-hover transform hover:-translate-y-2 transition-all duration-300">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">-60%</div>
                             <p class="text-gray-600">Giảm hiệu suất công việc</p>
                         </div>
-                        <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-center bg-white rounded-xl p-6 shadow-md interactive-hover transform hover:-translate-y-2 transition-all duration-300">
                             <div class="text-3xl font-black text-[#F25C54] mb-2">3x</div>
                             <p class="text-gray-600">Tăng nguy cơ mắc lỗi</p>
                         </div>
